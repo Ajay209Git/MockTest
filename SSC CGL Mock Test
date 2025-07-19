@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSC CGL Tier-I Mock Test (Google Form Tracking)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        /* ... (same styles as previous version) ... */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f7f9;
+            margin: 0;
+            padding: 0;
+        }
+        .menu-bar {
+            background: #0575e6;
+            margin: 0;
+            display: flex;
+            gap: 0;
+            border-bottom: 3px solid #0353a4;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            box-shadow: 0 2px 8px #0575e622;
+        }
+        .menu-item {
+            color: #fff;
+            padding: 16px 24px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: background 0.15s;
+            outline: none;
+            position: relative;
+        }
+        .menu-item.active, .menu-item:hover {
+            background: #0353a4;
+        }
+        .menu-item.inline {
+            background: #fff;
+            color: #0575e6;
+            border: 2px solid #0575e6;
+            margin: 9px 9px 9px 0;
+            border-radius: 6px;
+            box-shadow: 0 0 4px #0353a488;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.12s, color 0.12s;
+        }
+        .menu-item.inline.active, .menu-item.inline:hover {
+            background: #0575e6;
+            color: #fff;
+        }
+        .submenu-arrow {
+            margin-left: 8px;
+            font-size: 0.8em;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            min-width: 220px;
+            background: #fff;
+            box-shadow: 0 6px 18px #0575e633;
+            border-radius: 0 0 8px 8px;
+            padding: 7px 0;
+            z-index: 101;
+        }
+        .submenu.show {
+            display: block;
+        }
+        .submenu-item {
+            display: block;
+            width: 100%;
+            border: none;
+            background: none;
+            color: #0475e6;
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.13s, color 0.13s;
+        }
+        .submenu-item:hover, .submenu-item.active {
+            background: #f0f7fa;
+            color: #0353a4;
+        }
+        .container {
+            max-width: 520px;
+            margin: 30px auto;
+            background: #fff;
+            box-shadow: 0 0 12px rgba(0,0,0,0.09);
+            border-radius: 8px;
+            padding: 24px 16px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .question-block {
+            margin-bottom: 24px;
+            padding: 16px 0;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .navigation-btns button, .submit-btn {
+            padding: 10px 24px;
+            font-size: 1em;
+            background: #0575e6;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .navigation-btns button:disabled, .submit-btn:disabled {
+            background: #909090;
+            cursor: not-allowed;
+        }
+        .submit-btn {
+            display: block;
+            margin: 24px auto 12px auto;
+            width: 90%;
+            max-width: 270px;
+        }
+        .result-box {
+            text-align: center;
+            margin: 24px 0;
+            font-size: 1.1em;
+        }
+        .share-btn, .restart-btn {
+            display: inline-block;
+            margin: 12px 5px;
+            padding: 10px 22px;
+            font-size: 1em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.15s;
+        }
+        .share-btn {
+            background: #25d366;
+            color: #fff;
+        }
+        .share-btn:hover {
+            background: #128c7e;
+        }
+        .restart-btn {
+            background: #e1e1e1;
+            color: #0475e6;
+            border: 2px solid #0475e6;
+        }
+        .restart-btn:hover {
+            background: #0475e6;
+            color: #fff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+        th, td {
+            border: 1px solid #d3d3d3;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: #f0f7fa;
+            font-weight: 600;
+        }
+        tr.correct {
+            background: #eaffea;
+        }
+        tr.incorrect {
+            background: #ffeaea;
+        }
+        .explanation {
+            font-size: 0.95em;
+            color: #444;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 8px;
+            }
+            th, td {
+                font-size: 0.9em;
+            }
+            .submit-btn, .share-btn, .restart-btn {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .submenu {
+                min-width: 140px;
+            }
+        }
+        .timer {
+            font-size: 1.1em;
+            color: #0575e6;
+            text-align: right;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0475e6;
+        }
+        .question-number-indicator {
+            text-align: right;
+            font-size: 1em;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+        .status-total {
+            background: #e3e3e3;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .status-attempted {
+            background: #c3f6c3;
+            color: #196f1a;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .status-notattempted {
+            background: #ffd1d1;
+            color: #b30000;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .question-status-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            justify-content: flex-start;
+        }
+        .question-status-item {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.93em;
+            font-weight: 500;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .question-status-item.current {
+            border-color: #0575e6;
+            box-shadow: 0 0 5px #0575e644;
+        }
+        .question-status-item.attempted {
+            background: #c3f6c3;
+            color: #196f1a;
+        }
+        .question-status-item.notattempted {
+            background: #ffd1d1;
+            color: #b30000;
+        }
+        .question-status-item:hover {
+            border-color: #0475e6;
+        }
+        .question-status-item:active {
+            box-shadow: 0 0 8px #0575e688;
+        }
+        .menu-placeholder {
+            padding: 24px;
+            text-align: center;
+            color: #888;
+        }
+        #namePrompt {
+            max-width: 400px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            padding: 24px 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px #0353a440;
+        }
+        #userName {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            border: 1px solid #0575e6;
+            border-radius: 5px;
+        }
+        #nameError {
+            font-weight: 500;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="menu-bar" id="menuBar">
+        <button class="menu-item inline active" data-page="mocktest" id="mockTestMenuBtn">
+            Mock Test <span class="submenu-arrow">&#9662;</span>
+        </button>
+        <div class="submenu" id="mockTestSubMenu">
+            <button class="submenu-item active" data-subpage="mocktest-main">Main Test</button>
+            <button class="submenu-item" data-subpage="mocktest-section1">Section 1</button>
+            <button class="submenu-item" data-subpage="mocktest-section2">Section 2</button>
+        </div>
+        <button class="menu-item inline" data-page="instructions" id="instructionsMenuBtn">Instructions</button>
+        <button class="menu-item inline" data-page="about" id="aboutMenuBtn">About</button>
+    </nav>
+    <div id="namePrompt" style="text-align:center;margin-bottom:20px;">
+      <label for="userName">Enter your name to start:</label>
+      <input type="text" id="userName" placeholder="Your Name" style="padding:8px;width:180px;">
+      <button onclick="startTest()" style="padding:8px 18px;">Start Test</button>
+      <div id="nameError" style="color:#b30000;margin-top:6px;"></div>
+    </div>
+    <div class="container" id="mainContainer"></div>
+    <button class="submit-btn" id="submitBtn" style="display:block;">Submit Test</button>
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        document.addEventListener('cut', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+
+        let userName = "";
+        function startTest() {
+            userName = document.getElementById("userName").value.trim();
+            if (!userName) {
+                document.getElementById("nameError").innerText = "Please enter your name!";
+                return;
+            }
+            document.getElementById("namePrompt").style.display = "none";
+            showMockTest();
+        }
+
+        // Submenu logic
+        let showMockMenu = false;
+        let currentPage = 'mocktest';
+        let currentSubPage = 'mocktest-main';
+        const mockTestMenuBtn = document.getElementById('mockTestMenuBtn');
+        const mockTestSubMenu = document.getElementById('mockTestSubMenu');
+        mockTestMenuBtn.addEventListener('click', function(e){
+            e.stopPropagation();
+            showMockMenu = !showMockMenu;
+            mockTestSubMenu.classList.toggle('show', showMockMenu);
+        });
+        document.body.addEventListener('click', function(e){
+            if(!mockTestMenuBtn.contains(e.target) && !mockTestSubMenu.contains(e.target)){
+                showMockMenu = false;
+                mockTestSubMenu.classList.remove('show');
+            }
+        });
+        Array.from(document.querySelectorAll('.submenu-item')).forEach(btn => {
+            btn.addEventListener('click', function(e){
+                e.stopPropagation();
+                Array.from(document.querySelectorAll('.submenu-item')).forEach(b=>b.classList.remove('active'));
+                btn.classList.add('active');
+                showMockMenu = false;
+                mockTestSubMenu.classList.remove('show');
+                currentSubPage = btn.getAttribute('data-subpage');
+                showPage('mocktest', currentSubPage);
+            });
+        });
+
+        document.querySelectorAll('.menu-item').forEach(btn => {
+            btn.onclick = function(){
+                let page = btn.getAttribute('data-page');
+                showPage(page);
+            }
+        });
+
+        function showPage(page, subpage) {
+            currentPage = page;
+            if(subpage) currentSubPage = subpage;
+            document.querySelectorAll('.menu-item').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-page') === page);
+            });
+            if(page === 'mocktest') {
+                Array.from(document.querySelectorAll('.submenu-item')).forEach(btn=>{
+                    btn.classList.toggle('active', btn.getAttribute('data-subpage') === currentSubPage);
+                });
+            }
+            if (page === 'mocktest') {
+                if(currentSubPage === 'mocktest-main') showMockTest();
+                else if(currentSubPage === 'mocktest-section1') showMockTestSection(0,24,"General Intelligence & Reasoning");
+                else if(currentSubPage === 'mocktest-section2') showMockTestSection(25,49,"General Awareness");
+            }
+            else if (page === 'instructions') showInstructions();
+            else if (page === 'about') showAbout();
+        }
+
+        function showInstructions() {
+            document.getElementById('mainContainer').innerHTML = `
+                <h2>Instructions</h2>
+                <ul>
+                    <li>There are 100 questions divided into 4 sections.</li>
+                    <li>Each question carries 2 marks; 0.5 marks deducted for each wrong answer.</li>
+                    <li>Time allotted is 60 minutes.</li>
+                    <li>Only one question is shown at a time. Navigate using Next/Previous buttons.</li>
+                    <li>You can click on question numbers to jump to any question.</li>
+                    <li>After submission, you will see detailed results with explanations.</li>
+                </ul>
+            `;
+            showOrHideSubmitBtn(true);
+        }
+        function showAbout() {
+            document.getElementById('mainContainer').innerHTML = `
+                <h2>About This Application</h2>
+                <div class="menu-placeholder">
+                    <p>This is an SSC CGL Tier-I Mock Test web application.<br>
+                    Built with HTML, CSS, and JavaScript.<br>
+                    Features:<br>
+                    - Single question navigation<br>
+                    - Question status tracking<br>
+                    - Result analysis & explanations<br>
+                    - Modular menu for future pages<br>
+                    - Sticky menu bar with submenus</p>
+                </div>
+            `;
+            showOrHideSubmitBtn(true);
+        }
+
+        // Only your real questions, NO REPEAT/PADDING CODE!
+        const mockTestData = [
+            // 1-25 Reasoning (General Intelligence)
+            {q:"Which is the odd one out?",options:["Orange","Banana","Potato","Apple"],answer:2,explanation:"Potato is a vegetable, others are fruits."},
+            {q:"If A = 1, B = 2, C = 3, what is the value of CAB?",options:["312","132","213","231"],answer:0,explanation:"C=3, A=1, B=2, so CAB is 312."},
+            {q:"Find the next term: 2, 6, 12, 20, ?",options:["30","28","24","36"],answer:0,explanation:"n(n+1): 1x2=2, 2x3=6, ... 5x6=30."},
+            {q:"In a code language, DOG is written as 4157. What is the code for GOD?",options:["7415","7541","4571","7154"],answer:1,explanation:"G=7, O=5, D=4, so GOD=7541."},
+            {q:"Pointing to a man, Rekha said, “He is the brother of the daughter of my wife’s husband.” How is the man related to Rekha?",options:["Son","Brother","Nephew","Grandson"],answer:0,explanation:"Wife's husband is Rekha, daughter of Rekha, her brother is Rekha's son."},
+            {q:"Which number replaces the question mark? 3, 6, 18, 72, ?",options:["216","360","288","432"],answer:2,explanation:"Multiply previous by increasing numbers."},
+            {q:"Which is the missing number? 5, 11, 23, 47, ?",options:["95","93","99","101"],answer:0,explanation:"Double previous and add 1."},
+            {q:"If PENCIL is coded as QFODJM, how is ERASER coded?",options:["FSCBFS","FSBTFS","FSBTFQ","FSBTFZ"],answer:1,explanation:"Each letter +1 in alphabet."},
+            {q:"Which diagram represents Students, Girls and Boys?",options:["Three intersecting circles","One big circle with two small circles","Two circles inside one","Circle with triangle"],answer:0,explanation:"All can overlap."},
+            {q:"Select the related word: Hand : Finger :: Foot : ?",options:["Toe","Sole","Heel","Leg"],answer:0,explanation:"Finger is part of hand, toe is part of foot."},
+            {q:"Which is the odd pair?",options:["Hot-Cold","Up-Down","Tall-Short","Fast-Swift"],answer:3,explanation:"Fast and Swift are synonyms, others are antonyms."},
+            {q:"Find the missing number: 8, 16, 32, ?",options:["56","48","64","72"],answer:2,explanation:"Multiply by 2 each time."},
+            {q:"In a certain code, TREE is written as UQFF. How is LEAF coded?",options:["MFBG","MFAG","MEBG","MEAG"],answer:0,explanation:"Each letter +1."},
+            {q:"Which letter will come next in the series? A, C, F, J, O, ?",options:["U","V","W","X"],answer:0,explanation:"A(+2)C(+3)F(+4)J(+5)O(+6)U."},
+            {q:"Arrange in logical order: 1. Seed 2. Fruit 3. Plant 4. Flower",options:["1,3,4,2","1,4,3,2","1,3,2,4","1,2,3,4"],answer:0,explanation:"Seed → Plant → Flower → Fruit."},
+            {q:"Which of the following is a water animal?",options:["Lion","Tiger","Shark","Leopard"],answer:2,explanation:"Shark is aquatic."},
+            {q:"If 5x3=28, 6x2=20, 7x4=?",options:["44","45","48","49"],answer:0,explanation:"(a*b)+a+b."},
+            {q:"Which one set has similar relationship? 2 : 4 :: 3 : ?",options:["6","7","8","5"],answer:0,explanation:"Double the number."},
+            {q:"Which of the following is not a musical instrument?",options:["Harmonium","Guitar","Table","Flute"],answer:2,explanation:"Table is furniture."},
+            {q:"What comes next? 1, 4, 9, 16, ?",options:["25","36","49","64"],answer:0,explanation:"Squares of numbers."},
+            {q:"If BLACK is coded as YJZXP, how is WHITE coded?",options:["VGHSD","VGHSE","VGHSG","VGHSH"],answer:0,explanation:"Each letter -1 (A=Z rotation)."},
+            {q:"Which is the odd one?",options:["Rose","Lotus","Lily","Onion"],answer:3,explanation:"Onion is a vegetable."},
+            {q:"Select the related number: 4 : 16 :: 6 : ?",options:["36","24","18","12"],answer:0,explanation:"Square of the number."},
+            {q:"If MANGO is written as MANOG, how is PENCIL written?",options:["PENICL","PENCLI","PECNIL","PENCIL"],answer:1,explanation:"Last two letters swapped."},
+            {q:"Which of the following is a domestic animal?",options:["Lion","Bear","Cow","Wolf"],answer:2,explanation:"Cow is domestic."},
+            // 26-50 General Awareness
+            {q:"Who is called the Father of the Nation?",options:["Jawaharlal Nehru","Mahatma Gandhi","Sardar Patel","Subhash Chandra Bose"],answer:1,explanation:"Gandhi is known as Father of the Nation."},
+            {q:"Which is the largest continent?",options:["Africa","Asia","Antarctica","Europe"],answer:1,explanation:"Asia is largest."},
+            {q:"Who invented the telephone?",options:["Alexander Graham Bell","Edison","Newton","Einstein"],answer:0,explanation:"Bell invented telephone."},
+            {q:"Which river is known as the 'Sorrow of Bihar'?",options:["Ganga","Kosi","Yamuna","Godavari"],answer:1,explanation:"Kosi is called Sorrow of Bihar."},
+            {q:"Who is the President of India as of July 2025?",options:["Draupadi Murmu","Ram Nath Kovind","Narendra Modi","Amit Shah"],answer:0,explanation:"Draupadi Murmu (as of 2025)."},
+            {q:"Which is the smallest bone in the human body?",options:["Stapes","Femur","Humerus","Tibia"],answer:0,explanation:"Stapes (in ear) is smallest."},
+            {q:"In which year did India gain independence?",options:["1947","1950","1942","1930"],answer:0,explanation:"India got independence in 1947."},
+            {q:"Who discovered gravity?",options:["Einstein","Newton","Galileo","Edison"],answer:1,explanation:"Newton discovered gravity."},
+            {q:"Which is the national flower of India?",options:["Rose","Lily","Lotus","Marigold"],answer:2,explanation:"Lotus is national flower."},
+            {q:"Which is the longest river in the world?",options:["Nile","Ganga","Amazon","Yangtze"],answer:0,explanation:"Nile is longest."},
+            {q:"Who wrote 'Ramayana'?",options:["Tulsidas","Valmiki","Ved Vyas","Kalidas"],answer:1,explanation:"Valmiki wrote Ramayana."},
+            {q:"Which planet is known as the Red Planet?",options:["Venus","Jupiter","Mars","Saturn"],answer:2,explanation:"Mars is called Red Planet."},
+            {q:"Which is the currency of Japan?",options:["Yuan","Yen","Won","Dollar"],answer:1,explanation:"Yen is Japanese currency."},
+            {q:"Who is the author of 'Discovery of India'?",options:["Nehru","Tagore","Gandhi","Ambedkar"],answer:0,explanation:"Nehru wrote Discovery of India."},
+            {q:"Which organ purifies blood in human body?",options:["Liver","Kidney","Heart","Lungs"],answer:1,explanation:"Kidney purifies blood."},
+            {q:"Where is the Taj Mahal located?",options:["Jaipur","Delhi","Agra","Mumbai"],answer:2,explanation:"Taj Mahal is in Agra."},
+            {q:"Who was the first woman Prime Minister of India?",options:["Indira Gandhi","Sonia Gandhi","Sarojini Naidu","Pratibha Patil"],answer:0,explanation:"Indira Gandhi."},
+            {q:"Which state is called 'Land of Rising Sun' in India?",options:["Assam","Arunachal Pradesh","Kerala","Tamil Nadu"],answer:1,explanation:"Arunachal Pradesh."},
+            {q:"What is the capital of Australia?",options:["Sydney","Melbourne","Canberra","Brisbane"],answer:2,explanation:"Canberra is capital."},
+            {q:"Which vitamin is produced in human skin by sunlight?",options:["A","B","C","D"],answer:3,explanation:"Vitamin D."},
+            {q:"Who invented the computer?",options:["Charles Babbage","Alan Turing","Bill Gates","Steve Jobs"],answer:0,explanation:"Babbage is called father of computer."},
+            {q:"Which is the largest mammal?",options:["Elephant","Blue Whale","Giraffe","Rhino"],answer:1,explanation:"Blue Whale is largest."},
+            {q:"Who was the first President of India?",options:["Nehru","Rajendra Prasad","Radhakrishnan","Gandhi"],answer:1,explanation:"Dr. Rajendra Prasad."},
+            {q:"Which is the national bird of India?",options:["Crow","Parrot","Peacock","Sparrow"],answer:2,explanation:"Peacock."},
+            {q:"Which country is called the 'Land of Rising Sun'?",options:["China","India","Japan","Thailand"],answer:2,explanation:"Japan is Land of Rising Sun."},
+            // 51-75 Quantitative Aptitude
+            {q:"What is the value of: 2 + 3 x 4?",options:["14","20","24","9"],answer:0,explanation:"Multiply first: 3x4=12, then add 2: 12+2=14."},
+            {q:"What is 25% of 240?",options:["60","48","84","90"],answer:0,explanation:"240 x 0.25 = 60."},
+            {q:"What is the square root of 144?",options:["11","12","13","14"],answer:1,explanation:"12x12=144."},
+            {q:"If x = 5, what is 2x + 3?",options:["13","8","10","15"],answer:0,explanation:"2x+3=2*5+3=13."},
+            {q:"Which number is largest?",options:["0.2","0.22","0.202","0.12"],answer:1,explanation:"0.22 is largest."},
+            {q:"Find the value: 8^2 - 6^2",options:["20","24","28","36"],answer:2,explanation:"64-36=28."},
+            {q:"What is 1/2 of 2/3?",options:["1/3","1/2","2/3","1/6"],answer:0,explanation:"(1/2)x(2/3)=1/3."},
+            {q:"If a train travels 60 km in 1 hour, how far in 2.5 hours?",options:["120 km","150 km","90 km","105 km"],answer:1,explanation:"60x2.5=150 km."},
+            {q:"If cost price is ₹100, selling price is ₹120, what is profit %?",options:["20%","10%","12%","18%"],answer:0,explanation:"Profit=20/100x100=20%."},
+            {q:"What is the next prime number after 19?",options:["21","23","29","31"],answer:1,explanation:"23 is next after 19."},
+            {q:"Find the value: 9 x 12",options:["108","109","110","111"],answer:0,explanation:"9 x 12 = 108."},
+            {q:"If 3x = 12, x = ?",options:["4","3","6","5"],answer:0,explanation:"x=12/3=4."},
+            {q:"What is the average of 9, 12, 15?",options:["11","12","13","14"],answer:2,explanation:"(9+12+15)/3=12."},
+            {q:"What is the perimeter of square of side 5 cm?",options:["20 cm","25 cm","10 cm","15 cm"],answer:0,explanation:"4x5=20cm."},
+            {q:"Find the missing number: 2, 5, 10, 17, ?",options:["26","24","23","22"],answer:0,explanation:"Add consecutive odd numbers."},
+            {q:"A car covers 60 km in 1 hour. What is its speed in m/s?",options:["16.67","20","22.5","15"],answer:0,explanation:"60,000m/3600s=16.67 m/s."},
+            {q:"What is the value of: (15+5)/5?",options:["3","4","5","2"],answer:1,explanation:"20/5=4."},
+            {q:"What is the cube of 5?",options:["125","25","15","100"],answer:0,explanation:"5x5x5=125."},
+            {q:"Find the value: 100/4",options:["20","25","30","40"],answer:1,explanation:"100/4=25."},
+            {q:"If sum of angles of triangle is?",options:["90°","120°","180°","360°"],answer:2,explanation:"Sum is 180°."},
+            {q:"What is the next even number after 24?",options:["25","26","28","27"],answer:1,explanation:"26."},
+            {q:"What is the simple interest on ₹1000 at 5% per annum for 2 years?",options:["₹100","₹50","₹200","₹150"],answer:0,explanation:"1000x5x2/100=₹100."},
+            {q:"What is the value of 7 x 8?",options:["54","56","58","64"],answer:1,explanation:"7x8=56."},
+            {q:"What is the next term: 6, 12, 24, ?",options:["36","48","54","60"],answer:1,explanation:"Double previous: 24x2=48."},
+            {q:"If a rectangle has length 8 cm and breadth 5 cm, what is area?",options:["40 sq cm","16 sq cm","13 sq cm","32 sq cm"],answer:0,explanation:"8x5=40 sq cm."},
+            // 76-100 English Comprehension
+            {q:"Choose the correct sentence:",options:["She go to school.","She goes to school.","She going to school.","She gone to school."],answer:1,explanation:"She goes to school (subject-verb agreement)."},
+            {q:"Fill in the blank: He ___ playing cricket.",options:["is","are","am","be"],answer:0,explanation:"He is playing cricket."},
+            {q:"Choose the antonym for 'Happy':",options:["Glad","Sad","Delighted","Smiling"],answer:1,explanation:"Sad is antonym."},
+            {q:"Choose the synonym for 'Large':",options:["Small","Tiny","Big","Short"],answer:2,explanation:"Big is synonym."},
+            {q:"Identify the noun: The cat sat on the mat.",options:["sat","cat","on","the"],answer:1,explanation:"Cat is noun."},
+            {q:"Choose the correct spelling:",options:["Definately","Definitely","Definetly","Definatelye"],answer:1,explanation:"Definitely is correct."},
+            {q:"Fill in the blank: I ___ a book yesterday.",options:["read","reads","reading","red"],answer:0,explanation:"I read a book yesterday."},
+            {q:"Choose the word that does not belong:",options:["Apple","Banana","Car","Orange"],answer:2,explanation:"Car is not a fruit."},
+            {q:"Choose the correct sentence:",options:["He does not plays football.","He does not play football.","He do not play football.","He not play football."],answer:1,explanation:"He does not play football."},
+            {q:"Select correct prefix for 'legal':",options:["il","un","in","a"],answer:0,explanation:"Illegal."},
+            {q:"Choose correct article: ___ apple a day keeps the doctor away.",options:["A","An","The","None"],answer:1,explanation:"An apple."},
+            {q:"Replace the underlined word with suitable pronoun: Raj went to Raj's house.",options:["his","her","their","its"],answer:0,explanation:"Raj went to his house."},
+            {q:"Choose the plural of 'child':",options:["childs","childes","children","childrens"],answer:2,explanation:"Children."},
+            {q:"Fill in the blank: She ___ singing.",options:["is","are","am","be"],answer:0,explanation:"She is singing."},
+            {q:"Choose the correct tense: I have eaten.",options:["Present Perfect","Past Simple","Present Continuous","Past Continuous"],answer:0,explanation:"Present Perfect."},
+            {q:"Pick the odd word:",options:["Cat","Dog","Cow","Bird"],answer:3,explanation:"Bird is not a mammal."},
+            {q:"Choose suitable conjunction: He is poor ___ he is honest.",options:["but","and","or","so"],answer:0,explanation:"But."},
+            {q:"Identify the adjective: She wore a beautiful dress.",options:["wore","beautiful","dress","she"],answer:1,explanation:"Beautiful."},
+            {q:"Fill in the blank: The ___ are barking.",options:["dogs","dog","doges","dogg"],answer:0,explanation:"Dogs."},
+            {q:"Choose the correct passive voice: Someone stole my bag.",options:["My bag stole someone.","My bag was stolen.","My bag was stole.","Bag was stole by someone."],answer:1,explanation:"My bag was stolen."},
+            {q:"Choose the correct word: She ___ her homework.",options:["does","do","doing","done"],answer:0,explanation:"She does her homework."},
+            {q:"Choose the synonym for 'Brave':",options:["Coward","Timid","Bold","Soft"],answer:2,explanation:"Bold is synonym."},
+            {q:"Choose the antonym for 'Ancient':",options:["Old","Modern","Antique","Medieval"],answer:1,explanation:"Modern is antonym."},
+            {q:"Fill in the blank: He is taller ___ I am.",options:["than","then","that","to"],answer:0,explanation:"Than."},
+            {q:"Choose the correct sentence:",options:["She has went home.","She have gone home.","She has gone home.","She had go home."],answer:2,explanation:"She has gone home."}
+        ];
+
+        let currentQuestion = 0;
+        const totalQuestions = mockTestData.length;
+        let userAnswers = Array(totalQuestions).fill(-1);
+        let timerInterval, timeLeft = 60*60;
+        let timerStarted = false;
+        let testSubmitted = false;
+        let lastScore = 0, lastCorrect = 0, lastIncorrect = 0, lastUnattempted = 0;
+
+        function showMockTest() {
+            testSubmitted = false;
+            const mainContainer = document.getElementById('mainContainer');
+            mainContainer.innerHTML = `
+                <h1>SSC CGL Tier-I Mock Test</h1>
+                <div class="timer" id="timer"></div>
+                <div class="status-bar" id="statusBar"></div>
+                <div class="question-status-list" id="questionStatusList"></div>
+                <div id="questionContainer"></div>
+                <div class="navigation-btns" id="navBtns"></div>
+                <div class="result-box" id="resultBox"></div>
+                <div id="answerTableContainer"></div>
+            `;
+            showOrHideSubmitBtn(true);
+            if(!timerStarted) { startTimer(); timerStarted=true; }
+            renderCurrentQuestion();
+        }
+
+        function showMockTestSection(fromIdx, toIdx, title) {
+            testSubmitted = false;
+            let sectionQuestions = mockTestData.slice(fromIdx, toIdx+1);
+            let sectionAnswers = userAnswers.slice(fromIdx, toIdx+1);
+            let sectionCurrentQ = 0;
+            let sectionTotalQ = sectionQuestions.length;
+            document.getElementById('mainContainer').innerHTML = `
+                <h1>${title} (Section)</h1>
+                <div class="timer" id="timer"></div>
+                <div class="status-bar" id="statusBar"></div>
+                <div class="question-status-list" id="questionStatusList"></div>
+                <div id="questionContainer"></div>
+                <div class="navigation-btns" id="navBtns"></div>
+                <div class="result-box" id="resultBox"></div>
+                <div id="answerTableContainer"></div>
+            `;
+            showOrHideSubmitBtn(true);
+            renderSectionQuestion();
+
+            function renderSectionQuestion() {
+                updateStatusBarSection();
+                renderQuestionStatusListSection();
+
+                const qData = sectionQuestions[sectionCurrentQ];
+                const questionContainer = document.getElementById('questionContainer');
+                if (!questionContainer) return;
+                questionContainer.innerHTML = `
+                    <div class="question-number-indicator">Question ${fromIdx+sectionCurrentQ+1} of ${totalQuestions}</div>
+                    <div class="question-block">
+                        <div><b>Q${fromIdx+sectionCurrentQ+1}.</b> ${qData.q}</div>
+                        <div class="options">
+                            ${qData.options.map((opt, i) => `
+                                <label>
+                                    <input type="radio" name="q${fromIdx+sectionCurrentQ}" value="${i}" ${sectionAnswers[sectionCurrentQ]===i?'checked':''} ${testSubmitted?'disabled':''}/>
+                                    ${String.fromCharCode(65+i)}) ${opt}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                const navBtns = document.getElementById('navBtns');
+                if (!navBtns) return;
+                navBtns.innerHTML = `
+                    <button id="sectionPrevBtn" ${sectionCurrentQ===0||testSubmitted?'disabled':''}>Previous</button>
+                    <button id="sectionNextBtn" ${sectionCurrentQ===sectionTotalQ-1||testSubmitted?'disabled':''}>Next</button>
+                `;
+                document.getElementById('sectionPrevBtn').onclick = () => {
+                    saveSectionAnswer();
+                    if(sectionCurrentQ > 0) sectionCurrentQ--;
+                    renderSectionQuestion();
+                };
+                document.getElementById('sectionNextBtn').onclick = () => {
+                    saveSectionAnswer();
+                    if(sectionCurrentQ < sectionTotalQ-1) sectionCurrentQ++;
+                    renderSectionQuestion();
+                };
+                document.querySelectorAll(`input[name="q${fromIdx+sectionCurrentQ}"]`).forEach(radio => {
+                    radio.onchange = () => {
+                        sectionAnswers[sectionCurrentQ] = parseInt(radio.value);
+                        userAnswers[fromIdx+sectionCurrentQ] = parseInt(radio.value);
+                        updateStatusBarSection();
+                        renderQuestionStatusListSection();
+                    }
+                });
+            }
+            function saveSectionAnswer() {
+                const radios = document.getElementsByName('q'+(fromIdx+sectionCurrentQ));
+                let selected = -1;
+                radios.forEach(r => { if(r.checked) selected = parseInt(r.value); });
+                sectionAnswers[sectionCurrentQ] = selected;
+                userAnswers[fromIdx+sectionCurrentQ] = selected;
+            }
+            function updateStatusBarSection() {
+                const attempted = sectionAnswers.filter(a => a !== -1).length;
+                const notAttempted = sectionTotalQ - attempted;
+                const statusBar = document.getElementById('statusBar');
+                if(statusBar) statusBar.innerHTML = `
+                    <span class="status-total">Total: ${sectionTotalQ}</span>
+                    <span class="status-attempted">Attempted: ${attempted}</span>
+                    <span class="status-notattempted">Not Attempted: ${notAttempted}</span>
+                `;
+            }
+            function renderQuestionStatusListSection() {
+                const list = document.getElementById('questionStatusList');
+                if (!list) return;
+                list.innerHTML = '';
+                for(let i=0; i<sectionTotalQ; i++) {
+                    let status = sectionAnswers[i] !== -1 ? 'attempted' : 'notattempted';
+                    let current = i === sectionCurrentQ ? 'current' : '';
+                    let item = document.createElement('div');
+                    item.className = `question-status-item ${status} ${current}`;
+                    item.textContent = fromIdx+i+1;
+                    item.title = `Question ${fromIdx+i+1}`;
+                    item.onclick = () => {
+                        if(testSubmitted) return;
+                        saveSectionAnswer();
+                        sectionCurrentQ = i;
+                        renderSectionQuestion();
+                    };
+                    list.appendChild(item);
+                }
+            }
+        }
+
+        function updateStatusBar() {
+            const attempted = userAnswers.filter(a => a !== -1).length;
+            const notAttempted = totalQuestions - attempted;
+            const statusBar = document.getElementById('statusBar');
+            if(statusBar) statusBar.innerHTML = `
+                <span class="status-total">Total: ${totalQuestions}</span>
+                <span class="status-attempted">Attempted: ${attempted}</span>
+                <span class="status-notattempted">Not Attempted: ${notAttempted}</span>
+            `;
+        }
+        function renderQuestionStatusList() {
+            const list = document.getElementById('questionStatusList');
+            if (!list) return;
+            list.innerHTML = '';
+            for(let i=0; i<totalQuestions; i++) {
+                let status = userAnswers[i] !== -1 ? 'attempted' : 'notattempted';
+                let current = i === currentQuestion ? 'current' : '';
+                let item = document.createElement('div');
+                item.className = `question-status-item ${status} ${current}`;
+                item.textContent = i+1;
+                item.title = `Question ${i+1}`;
+                item.onclick = () => {
+                    if(testSubmitted) return;
+                    saveCurrentAnswer();
+                    currentQuestion = i;
+                    renderCurrentQuestion();
+                };
+                list.appendChild(item);
+            }
+        }
+        function renderCurrentQuestion() {
+            updateStatusBar();
+            renderQuestionStatusList();
+
+            const qData = mockTestData[currentQuestion];
+            let sectionTitle = "";
+            if(currentQuestion < 25) sectionTitle = "Section 1: General Intelligence & Reasoning";
+            else if(currentQuestion < 50) sectionTitle = "Section 2: General Awareness";
+            else if(currentQuestion < 75) sectionTitle = "Section 3: Quantitative Aptitude";
+            else sectionTitle = "Section 4: English Comprehension";
+
+            const questionContainer = document.getElementById('questionContainer');
+            if (!questionContainer) return;
+            questionContainer.innerHTML = `
+                <div class="section-title">${sectionTitle}</div>
+                <div class="question-number-indicator">Question ${currentQuestion+1} of ${totalQuestions}</div>
+                <div class="question-block">
+                    <div><b>Q${currentQuestion+1}.</b> ${qData.q}</div>
+                    <div class="options">
+                        ${qData.options.map((opt, i) => `
+                            <label>
+                                <input type="radio" name="q${currentQuestion}" value="${i}" ${userAnswers[currentQuestion]===i?'checked':''} ${testSubmitted?'disabled':''}/>
+                                ${String.fromCharCode(65+i)}) ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            const navBtns = document.getElementById('navBtns');
+            if (!navBtns) return;
+            navBtns.innerHTML = `
+                <button id="prevBtn" ${currentQuestion===0||testSubmitted?'disabled':''}>Previous</button>
+                <button id="nextBtn" ${currentQuestion===totalQuestions-1||testSubmitted?'disabled':''}>Next</button>
+            `;
+
+            document.getElementById('prevBtn').onclick = () => {
+                saveCurrentAnswer();
+                if(currentQuestion > 0) currentQuestion--;
+                renderCurrentQuestion();
+            };
+            document.getElementById('nextBtn').onclick = () => {
+                saveCurrentAnswer();
+                if(currentQuestion < totalQuestions-1) currentQuestion++;
+                renderCurrentQuestion();
+            };
+            document.querySelectorAll(`input[name="q${currentQuestion}"]`).forEach(radio => {
+                radio.onchange = () => {
+                    userAnswers[currentQuestion] = parseInt(radio.value);
+                    updateStatusBar();
+                    renderQuestionStatusList();
+                }
+            });
+        }
+        function saveCurrentAnswer() {
+            const radios = document.getElementsByName('q'+currentQuestion);
+            let selected = -1;
+            radios.forEach(r => { if(r.checked) selected = parseInt(r.value); });
+            userAnswers[currentQuestion] = selected;
+        }
+        function showOrHideSubmitBtn(show) {
+            let btn = document.getElementById('submitBtn');
+            if (btn) btn.style.display = show ? 'block' : 'none';
+            if(testSubmitted && btn) btn.disabled = true;
+            else if(btn) btn.disabled = false;
+        }
+        document.getElementById('submitBtn').addEventListener('click', function(){
+            if(testSubmitted) return;
+            saveCurrentAnswer();
+            submitTest(false);
+        });
+
+        // -- Send to Google Form --
+        function sendResultToGoogleForm(name, score) {
+            var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdtDpBE2jyAtXcgSj09dH9hTe-_kBYsoAMk3w5zEs8pwHrRNA/formResponse';
+            var data = new FormData();
+            data.append('entry.2072353261', name);   // Name
+            data.append('entry.1476886139', score);  // Score
+
+            fetch(formUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: data
+            });
+        }
+
+        function submitTest(autoSubmit=false) {
+            clearInterval(timerInterval);
+            testSubmitted = true;
+            let submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) submitBtn.disabled = true;
+            let navBtns = document.getElementById('navBtns');
+            if (navBtns) navBtns.innerHTML = '';
+            let questionContainer = document.getElementById('questionContainer');
+            if (questionContainer) questionContainer.innerHTML = '';
+            showResult(userAnswers, autoSubmit);
+            showOrHideSubmitBtn(true);
+
+            // Send name and score to Google Form!
+            let score = lastScore;
+            if (userName && score>=0) sendResultToGoogleForm(userName, score);
+        }
+        function showResult(userAnswers, autoSubmit) {
+            let score = 0, correct = 0, incorrect = 0, unattempted = 0;
+            userAnswers.forEach((ans, i) => {
+                if(ans === mockTestData[i].answer) { score += 2; correct += 1; }
+                else if(ans === -1) { unattempted += 1; }
+                else { score -= 0.5; incorrect += 1; }
+            });
+            lastScore = score; lastCorrect = correct; lastIncorrect = incorrect; lastUnattempted = unattempted;
+
+            const resultBox = document.getElementById('resultBox');
+            if (resultBox) resultBox.innerHTML = `
+                <b>Test Submitted${autoSubmit ? ' (Time Up!)' : ''}!</b><br>
+                Score: <b>${score}</b> out of ${mockTestData.length*2}<br>
+                Correct: <b>${correct}</b> | Incorrect: <b>${incorrect}</b> | Unattempted: <b>${unattempted}</b>
+                <div>
+                    <button class="share-btn" id="whatsappShareBtn">Share on WhatsApp</button>
+                    <button class="restart-btn" id="restartBtn">Restart Mock Test</button>
+                </div>
+            `;
+            let tableHTML = `
+                <h2>Answer Review Table</h2>
+                <table>
+                    <tr>
+                        <th>Q.No.</th>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Explanation</th>
+                    </tr>
+            `;
+            mockTestData.forEach((item, i) => {
+                const userAns = userAnswers[i];
+                const isCorrect = userAns === item.answer;
+                const rowClass = userAns === -1 ? '' : (isCorrect ? 'correct' : 'incorrect');
+                tableHTML += `
+                    <tr class="${rowClass}">
+                        <td>${i+1}</td>
+                        <td>${item.q}</td>
+                        <td>${userAns === -1 ? '<i>Unattempted</i>' : (item.options[userAns] ? item.options[userAns] : '')}</td>
+                        <td>${item.options[item.answer]}</td>
+                        <td class="explanation">${item.explanation}</td>
+                    </tr>
+                `;
+            });
+            tableHTML += `</table>`;
+            let answerTableContainer = document.getElementById('answerTableContainer');
+            if (answerTableContainer) answerTableContainer.innerHTML = tableHTML;
+            setTimeout(function(){
+                let shareBtn = document.getElementById('whatsappShareBtn');
+                if(shareBtn){
+                    shareBtn.onclick = function(){
+                        let pageUrl = window.location.href;
+                        let msg = `I just completed the SSC CGL Tier-I Mock Test! 🏆\nMy Score: ${lastScore} out of ${mockTestData.length*2}\nCorrect: ${lastCorrect}, Incorrect: ${lastIncorrect}, Unattempted: ${lastUnattempted}\nTry it yourself here: ${pageUrl}\nGood luck and keep practicing! 💪`;
+                        let encodedMsg = encodeURIComponent(msg);
+                        window.open(`https://wa.me/?text=${encodedMsg}`,'_blank');
+                    };
+                }
+                let restartBtn = document.getElementById('restartBtn');
+                if(restartBtn){
+                    restartBtn.onclick = function(){
+                        restartMockTest();
+                    };
+                }
+            }, 100);
+        }
+        function restartMockTest() {
+            userAnswers = Array(totalQuestions).fill(-1);
+            currentQuestion = 0;
+            timeLeft = 60*60;
+            timerStarted = false;
+            testSubmitted = false;
+            showMockTest();
+        }
+        function startTimer() {
+            function updateTimer() {
+                const timerEl = document.getElementById('timer');
+                if (!timerEl) return;
+                let min = Math.floor(timeLeft/60);
+                let sec = timeLeft % 60;
+                timerEl.textContent = `Time Left: ${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerEl.textContent = "Time's Up!";
+                    let submitBtn = document.getElementById('submitBtn');
+                    if (submitBtn) submitBtn.disabled = true;
+                    submitTest(true);
+                }
+                timeLeft--;
+            }
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        // Initial page load: show name prompt
+        document.getElementById('mainContainer').innerHTML = '';
+        showOrHideSubmitBtn(false);
+    </script>
+</body>
+</html>
